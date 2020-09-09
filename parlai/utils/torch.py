@@ -56,6 +56,7 @@ def atomic_save(state_dict: Any, path: str) -> None:
     if io_util.USE_ATOMIC_TORCH_SAVE:
         with open(path + ".tmp", "wb") as f:
             torch.save(state_dict, f)
+        os.remove(path)
         os.rename(path + ".tmp", path)
     else:
         # PathManager deosn't support os.rename. See T71772714

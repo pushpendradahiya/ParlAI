@@ -290,8 +290,8 @@ def _untar(path, fname, delete=True):
             else:
                 raise NotImplementedError("No support for symlinks etc. right now.")
 
-    if delete:
-        PathManager.rm(fullpath)
+    # if delete:
+    #     PathManager.rm(fullpath)
 
 
 def _unzip(path, fname, delete=True):
