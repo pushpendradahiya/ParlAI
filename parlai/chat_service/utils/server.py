@@ -10,7 +10,7 @@ import hashlib
 import netrc
 import os
 import platform
-import sh
+# import sh
 import shlex
 import shutil
 import subprocess

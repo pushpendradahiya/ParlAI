@@ -8,7 +8,7 @@
 try:
     import joblib  # noqa: F401
     import websocket  # noqa: F401
-    import sh  # noqa: F401
+    # import sh  # noqa: F401
 except ImportError:
     raise SystemExit(
         "Please install 3rd-party dependencies by running: "
