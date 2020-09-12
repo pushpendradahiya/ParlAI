@@ -38,7 +38,7 @@ def run(opt):
     Run TerminalManager.
     """
     opt['service'] = SERVICE_NAME
-    manager = Termin alManager(opt)
+    manager = TerminalManager(opt)
     try:
         manager.start_task()
     finally:
