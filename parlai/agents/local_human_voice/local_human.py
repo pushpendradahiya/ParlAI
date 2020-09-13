@@ -5,6 +5,9 @@
 # LICENSE file in the root directory of this source tree.
 """
 Agent does gets the local keyboard input in the act() function.
+
+** Modified code to take speech input instead of keyboard input
+
 Example: parlai eval_model -m local_human -t babi:Task1k:1 -dt valid
 """
 
@@ -13,8 +16,19 @@ from parlai.core.message import Message
 from parlai.utils.misc import display_messages, load_cands
 from parlai.utils.strings import colorize
 
+import speech_recognition as sr
+import pyttsx3
 
-class LocalHumanAgent(Agent):
+engine = pyttsx3.init()
+engine.setProperty('rate', 200)
+engine.setProperty('volume', 0.9)
+r = sr.Recognizer()
+
+WIT_AI_KEY = "ZMGF2KUHBDEWY4Y35HLFB3IIK75LPZQC"
+speech = sr.Microphone(device_index=1)
+
+
+class LocalHumanVoiceAgent(Agent):
     def add_cmdline_args(argparser):
         """
         Add command-line arguments specifically for this agent.
@@ -51,19 +65,47 @@ class LocalHumanAgent(Agent):
         return self.finished
 
     def observe(self, msg):
-        print(
-            display_messages(
-                [msg],
-                ignore_fields=self.opt.get('display_ignore_fields', ''),
-                prettify=self.opt.get('display_prettify', False),
-            )
-        )
+        # print(
+        #     display_messages(
+        #         [msg],
+        #         ignore_fields=self.opt.get('display_ignore_fields', ''),
+        #         prettify=self.opt.get('display_prettify', False),
+        #     )
+        # )
+        if msg.get('text', ''):
+            print("BOT: {}".format(msg['text']))
+            engine.say(msg['text'])
+            engine.runAndWait()
+        if msg.get('episode_done'):
+            print("BOT: Thanks, See you later!")
+            engine.say("Thanks, See you later!")
+            engine.runAndWait()
 
     def act(self):
         reply = Message()
         reply['id'] = self.getID()
         try:
-            reply_text = input(colorize("Enter Your Message:", 'text') + ' ')
+            # reply_text = input(colorize("Enter Your Message:", 'text') + ' ')
+            print("System Ready, Speak Something")
+            print("You: ", end="")
+            with speech as source:
+                audio = r.adjust_for_ambient_noise(source)
+                audio = r.listen(source)
+            reply_text = r.recognize_wit(audio, key=WIT_AI_KEY)
+            # reply_text = r.recognize_google(audio)
+            print(reply_text)
+        except sr.UnknownValueError:
+            print("*** Sorry, Speech Recognition could not understand audio")
+            engine.say("Sorry, Speech Recognition could not understand audio")
+            engine.runAndWait()
+            self.finished = True
+            return {'episode_done': True}
+        except sr.RequestError as e:
+            print("*** Sorry, Could not request results from Speech Recognition service; {0}".format(e))
+            engine.say("Sorry, Could not request results from Speech Recognition service; {0}".format(e))
+            engine.runAndWait()
+            self.finished = True
+            return {'episode_done': True}
         except EOFError:
             self.finished = True
             return {'episode_done': True}
