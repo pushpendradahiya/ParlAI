@@ -22,7 +22,8 @@ from parlai.core.agents import create_agent
 from parlai.core.worlds import create_task
 from parlai.core.script import ParlaiScript, register_script
 from parlai.utils.world_logging import WorldLogger
-from parlai.agents.local_human_voice.local_human import LocalHumanVoiceAgent
+# from parlai.agents.local_human_voice.local_human import LocalHumanVoiceAgent
+from parlai.agents.local_human.local_human import LocalHumanAgent
 import parlai.utils.logging as logging
 
 import random
@@ -69,7 +70,8 @@ def setup_args(parser=None):
         help='Format to save logs in. conversations is a jsonl format, parlai is a text format.',
     )
     parser.set_defaults(interactive_mode=True, task='interactive')
-    LocalHumanVoiceAgent.add_cmdline_args(parser)
+    # LocalHumanVoiceAgent.add_cmdline_args(parser)
+    LocalHumanAgent.add_cmdline_args(parser)
     WorldLogger.add_cmdline_args(parser)
     return parser
 
@@ -82,7 +84,8 @@ def interactive(opt):
     # Create model and assign it to the specified task
     agent = create_agent(opt, requireModelExists=True)
     agent.opt.log()
-    human_agent = LocalHumanVoiceAgent(opt)
+    # human_agent = LocalHumanVoiceAgent(opt)
+    human_agent = LocalHumanAgent(opt)
     # set up world logger
     world_logger = WorldLogger(opt) if opt.get('outfile') else None
     world = create_task(opt, [human_agent, agent])

@@ -29,6 +29,8 @@ from parlai.utils.misc import warn_once
 from parlai.utils.io import PathManager
 from .build import build
 
+import io
+
 
 ##################################################
 #### Teacher for the BlendedSkillTalk Dataset ####
@@ -290,7 +292,7 @@ class PersonaTopicifier:
     ) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
         persona_strings_to_topics = defaultdict(list)
         topics_to_persona_strings = defaultdict(list)
-        with PathManager.open(self.topic_to_persona_path, 'r') as f:
+        with io.open(self.topic_to_persona_path, 'r', encoding='utf-8') as f:
             for line in f:
                 match = re.fullmatch(r'([^[]+): (\[.+\])\n', line)
                 topic = match.group(1)

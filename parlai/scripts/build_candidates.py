@@ -21,6 +21,7 @@ import parlai.utils.logging as logging
 from parlai.core.script import ParlaiScript, register_script
 import random
 import tempfile
+import io
 
 
 def setup_args(parser=None) -> ParlaiParser:
@@ -87,7 +88,7 @@ def build_cands(opt):
         if world.epoch_done():
             logging.info('epoch done')
             break
-    fw = open(outfile, 'w')
+    fw = io.open(outfile, 'w', encoding="utf-8")
     fw.write('\n'.join(cands))
     fw.close()
 
