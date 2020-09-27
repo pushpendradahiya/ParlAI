@@ -113,8 +113,8 @@ class InteractiveWorld(DialogPartnerWorld):
     def _add_knowledge_to_act(self, act):
         self.knowledge_agent.observe(act, actor_id='apprentice')
         knowledge_act = self.knowledge_agent.act()
-        act['knowledge'] = knowledge_act['text']
-        act['checked_sentence'] = knowledge_act['checked_sentence']
+        act['knowledge'] = knowledge_act['text'] # Get the tfidf retrived knowledge, possibly multiple sentences
+        act['checked_sentence'] = knowledge_act['checked_sentence'] # Checked sentence from the selector - Transformer reteiver
         if self.print_checked_sentence:
             print(
                 '[ Using chosen sentence from Wikpedia ]: {}'.format(
@@ -138,25 +138,25 @@ class InteractiveWorld(DialogPartnerWorld):
             if self.topic != NO_TOPIC:
                 self.human_first = random.choice([0, 1])
             else:
-                self.human_first = 1
+                self.human_first = 1 # Always human first if NO_TOPIC is selected.
 
         # possibly get human act first
         if self.cnt == 0 and not self.human_first:
-            self.acts[0] = act = Message({'text': '', 'episode_done': False})
+            self.acts[0] = act = Message({'text': '', 'episode_done': False}) # Empty message for the Bot to start with
             act = self.acts[0]
         else:
-            self.acts[0] = self.human_agent.act()
+            self.acts[0] = self.human_agent.act() # Get message from human if human is first
             act = deepcopy(self.acts[0])
 
         # model agent observe
         if self.cnt == 0 and self.topic != NO_TOPIC:
-            # add the chosen_topic to the message
+            # add the chosen_topic to the message, Before the message text = topic + message
             act['chosen_topic'] = self.topic
             act.force_set('text', '\n'.join([self.topic, act.get('text', 'hi')]))
 
         # add knowledge to the model observation
         act = self._add_knowledge_to_act(act)
-
+        #print("act: ", act)
         # model observes knowledge and human (apprentice) act
         self.model_agent.observe(validate(act))
 
@@ -210,7 +210,7 @@ class InteractiveGeneratorWorld(InteractiveWorld):
             knowledge_text = ' '.join(
                 [TOKEN_KNOWLEDGE, act['checked_sentence'], TOKEN_END_KNOWLEDGE]
             )
-            new_text = '\n'.join([knowledge_text, act['text']])
+            new_text = '\n'.join([knowledge_text, act['text']]) # Todo: Why prepending the knowledge and not appending?
             act.force_set('text', new_text)
         else:
             warn_once(

@@ -863,6 +863,7 @@ class TorchGeneratorAgent(TorchAgent, ABC):
         """
         Evaluate a single batch of examples.
         """
+        #print("\n\nBatch: ", batch, "\n\n")
         if batch.text_vec is None and batch.image is None:
             return
         if batch.text_vec is not None:
