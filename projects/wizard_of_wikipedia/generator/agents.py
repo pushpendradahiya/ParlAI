@@ -179,6 +179,7 @@ class EndToEndAgent(_GenericWizardAgent):
             ]
             obs_know = [k for k in obs_know if k]
             obs['knowledge_parsed'] = obs_know
+            print("obs_know: ", obs_know)
             return obs['knowledge_parsed']
 
         checked_sentence = '{} {} {}'.format(
@@ -203,6 +204,7 @@ class EndToEndAgent(_GenericWizardAgent):
 
         obs['knowledge_parsed'] = obs_know
         obs['checked_sentence_parsed'] = checked_sentence
+        print("checked_sentence: ", checked_sentence)
         return obs['knowledge_parsed']
 
     def batchify(self, obs_batch):
@@ -285,6 +287,7 @@ class EndToEndAgent(_GenericWizardAgent):
         batch['cs_ids'] = cs_ids
         batch['use_cs_ids'] = is_training
         batch['knowledge'] = np.array(flattened_knowledge).reshape(N, K)
+        print("batch: ", batch)
         return batch
 
     @classmethod
