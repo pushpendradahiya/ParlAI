@@ -144,3 +144,20 @@ heroku-cli-*
 
 # mypy cache
 .mypy_cache
+models/RetNRef-20200927T222804Z-001.zip
+models/RetNRef/test_train_90M.checkpoint.dict
+models/RetNRef/test_train_90M.checkpoint.dict.codecs
+models/RetNRef/test_train_90M.checkpoint.dict.opt
+models/RetNRef/test_train_90M.checkpoint.opt
+models/RetNRef/test_train_90M.checkpoint.trainstats
+models/RetNRef/test_train_90M.checkpoint.zip
+models/RetNRef/test_train_90M.dict
+models/RetNRef/test_train_90M.dict.codecs
+models/RetNRef/test_train_90M.dict.opt
+models/RetNRef/test_train_90M.opt
+models/RetNRef/test_train_90M.trainstats
+models/RetNRef/test_train_90M.zip
+models/RetNRef/test_train_90M/archive/data.pkl
+models/RetNRef/test_train_90M/archive/version
+models/RetNRef/test_train_90M.checkpoint/archive/data.pkl
+models/RetNRef/test_train_90M.checkpoint/archive/version
