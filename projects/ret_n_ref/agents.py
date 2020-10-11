@@ -281,9 +281,9 @@ class TransformerRetGenAgent(_GenericWizardAgent):
                 obs['full_text_vec'] = history.get_history_vec()
 
             # if wizard of wikipedia, add the retreived text.
-            if obs['id'] == 'wizard_of_wikipedia':
-                checked_sentence = '{} {}'.format(TOKEN_KNOWLEDGE, obs['checked_sentence']
-                                                  )
+            if obs['id'] == 'wizard_of_wikipedia' or obs['id'] == 'localHuman':
+                # print("\n\n Obs: ", obs)
+                checked_sentence = '{} {}'.format(TOKEN_KNOWLEDGE, obs['checked_sentence'])
                 obs.force_set('full_text', history_string + checked_sentence)
                 checked_vec = self._vectorize_text(
                     # the beginning of the sentence is more useful
