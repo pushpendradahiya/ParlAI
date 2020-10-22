@@ -399,7 +399,7 @@ class BasicdialogTeacher(WizardOfWikipediaTeacher):
         dialog_entry_2 = d['dialog'][idx + 1]
 
         text = dialog_entry_1['text']
-        labels = ['knowlg'] *len(dialog_entry_1)
+        labels = ['knowlg']
         #print(labels)
         #labels = [dialog_entry_2['text']]
 
