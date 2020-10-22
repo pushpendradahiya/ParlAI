@@ -294,7 +294,6 @@ class TorchClassifierAgent(TorchAgent):
     def __init__(self, opt: Opt, shared=None):
         init_model, self.is_finetune = self._get_init_model(opt, shared)
         super().__init__(opt, shared)
-
         # set up classes
         if opt.get('classes') is None and opt.get('classes_from_file') is None:
             raise RuntimeError(
@@ -304,6 +303,7 @@ class TorchClassifierAgent(TorchAgent):
             if opt['classes_from_file'] is not None:
                 with PathManager.open(opt['classes_from_file']) as f:
                     self.class_list = f.read().splitlines()
+                # print("In classes from file")
             else:
                 self.class_list = opt['classes']
             self.class_dict = {val: i for i, val in enumerate(self.class_list)}
@@ -392,6 +392,7 @@ class TorchClassifierAgent(TorchAgent):
         """
         try:
             labels_indices_list = [self.class_dict[label] for label in batch.labels]
+
         except KeyError as e:
             warn_once('One of your labels is not in the class list.')
             raise e

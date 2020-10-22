@@ -383,6 +383,7 @@ def load_world_module(
             world_name = "DefaultWorld"
     module_name = "%s.tasks.%s.worlds" % (repo, task)
 
+    # print("world name: ", world_name, module_name)
     try:
         my_module = importlib.import_module(module_name)
         world_class = getattr(my_module, world_name)

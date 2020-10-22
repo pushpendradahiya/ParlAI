@@ -213,11 +213,13 @@ class EmpatheticDialoguesTeacher(FixedDialogTeacher):
         ep = self.data[episode_idx]
         ep_i = ep[entry_idx]
         episode_done = entry_idx >= (len(ep) - 1)
+        labels = ['no-knowlg'] * len(ep_i[1])
+        print(labels)
         action = {
             'situation': ep_i[3],
             'emotion': ep_i[2],
             'text': ep_i[0],
-            'labels': [ep_i[1]],
+            'labels': labels,
             'prepend_ctx': ep_i[6],
             'prepend_cand': ep_i[7],
             'deepmoji_ctx': ep_i[4],

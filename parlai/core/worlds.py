@@ -1224,6 +1224,7 @@ def create_task_world(opt: Opt, user_agents, default_world=None):
     (A world factory.)
     """
     task_agents = _create_task_agents(opt)
+    # print("len: ", len(user_agents + task_agents))
     world_class = load_world_module(
         opt['task'],
         interactive_task=opt.get('interactive_task', False),

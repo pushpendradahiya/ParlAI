@@ -280,6 +280,8 @@ class TrainLoop:
         self.agent.opt.log()
         self.world = create_task(opt, self.agent)
         # set up timers
+        print(f"agents {self.agent}")
+        print(f"world {self.world}")
         self.train_time = Timer()
         self.validate_time = Timer()
         self.log_time = Timer()
@@ -648,6 +650,7 @@ class TrainLoop:
         logging.info('training...')
         opt = self.opt
         world = self.world
+        print(f"world {world}")
         with world:
             while True:
                 # do one example / batch of examples
