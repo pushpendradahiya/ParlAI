@@ -89,6 +89,15 @@ class BlendedSkillTalkTeacher(ParlAIDialogTeacher):
         opt['parlaidialogteacher_datafile'] = _processed_data_path(opt)
         super().__init__(opt, shared)
 
+    def get(self, episode_idx, entry_idx=0):
+        gotten = super().get(episode_idx, entry_idx=entry_idx)
+        if gotten['context_dataset'] in ['convai2', 'empathetic_dialogues']:
+            gotten.force_set('labels', ['no-knowlg'])
+        elif gotten['context_dataset'] == 'wizard_of_wikipedia':
+            gotten.force_set('labels', ['knowlg'])
+        # print(f"gotten BST : {gotten}")
+        return gotten
+
 
 class InteractiveTeacher(BlendedSkillTalkTeacher):
     # Dummy class to add arguments for interactive world.
@@ -140,6 +149,7 @@ class ConvAI2PersonaTopicifierTeacher(Convai2DefaultTeacher):
         if entry_idx == 0:
             modified_text = self.persona_topicifier.get_modified_text(gotten['text'])
             gotten.force_set('text', modified_text)
+            # print(f"gotten convai : {gotten}")
         return gotten
 
 
@@ -159,6 +169,7 @@ class WoWPersonaTopicifierTeacher(WizardDialogKnowledgeTeacher):
         if entry_idx == 0:
             modified_text = self.persona_topicifier.get_modified_text(gotten['text'])
             gotten['text'] = modified_text
+            # print(f"gotten wow : {gotten}")
         return gotten
 
 
@@ -250,6 +261,7 @@ class EDPersonaTopicifierTeacher(EmpatheticDialoguesTeacher):
         if entry_idx == 0:
             modified_text = self.persona_topicifier.get_modified_text(gotten['text'])
             gotten['text'] = modified_text
+            # print(f"gotten ed : {gotten}")
         return gotten
 
     def get(self, episode_idx: int, entry_idx: Optional[int] = None) -> dict:
